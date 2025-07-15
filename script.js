@@ -70,6 +70,7 @@ function renderizarTabela() {
     const btnExcluir = document.createElement("button");
     btnExcluir.textContent = "Excluir";
     btnExcluir.classList.add("excluir");
+    btnExcluir.onclick = () => abrirModalExcluir(index);
 
     tdAcoes.appendChild(btnEditar);
     tdAcoes.appendChild(btnExcluir);
@@ -143,6 +144,27 @@ function fecharModalEditar() {
   indexEditando = null;
   modalEditar.style.display = "none";
 }
+
+function abrirModalExcluir(index) {
+  indexExcluindo = index;
+  modalExcluir.style.display = "flex";
+}
+
+function fecharModalExcluir() {
+  indexExcluindo = null;
+  modalExcluir.style.display = "none";
+}
+
+function confirmarExclusao() {
+  clientes.splice(indexExcluindo, 1);
+
+  fecharModalExcluir();
+  renderizarTabela();
+}
+
+btnConfirmarExclusao.addEventListener("click", confirmarExclusao);
+
+btnCancelarExclusao.addEventListener("click", fecharModalExcluir);
 
 btnCancelarEdicao.addEventListener("click", fecharModalEditar);
 
