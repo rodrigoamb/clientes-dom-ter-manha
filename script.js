@@ -47,6 +47,8 @@ let indexEditando = null;
 let indexExcluindo = null;
 
 function renderizarTabela() {
+  tabela.innerHTML = "";
+
   clientes.forEach((cliente) => {
     const tr = document.createElement("tr");
 
@@ -76,5 +78,26 @@ function renderizarTabela() {
     tabela.appendChild(tr);
   });
 }
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault(); //sempre uso isso em um evento submit para evitar carregamento da página
+
+  const nome = inputNome.value;
+  const sobrenome = inputSobrenome.value;
+  const cpf = inputcpf.value;
+  const email = inputEmail.value;
+
+  const objCliente = {
+    nome,
+    sobrenome,
+    cpf,
+    email,
+  };
+
+  clientes.push(objCliente);
+
+  renderizarTabela();
+  form.reset();
+});
 
 renderizarTabela();
