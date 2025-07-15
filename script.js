@@ -49,7 +49,7 @@ let indexExcluindo = null;
 function renderizarTabela() {
   tabela.innerHTML = "";
 
-  clientes.forEach((cliente) => {
+  clientes.forEach((cliente, index) => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
@@ -65,7 +65,7 @@ function renderizarTabela() {
     const btnEditar = document.createElement("button");
     btnEditar.textContent = "Editar";
     btnEditar.classList.add("editar");
-    btnEditar.onclick = () => abrirModalEditar(cliente);
+    btnEditar.onclick = () => abrirModalEditar(cliente, index);
 
     const btnExcluir = document.createElement("button");
     btnExcluir.textContent = "Excluir";
@@ -105,13 +105,45 @@ form.addEventListener("submit", (event) => {
   form.reset();
 });
 
-function abrirModalEditar(cliente) {
+function abrirModalEditar(cliente, index) {
   modalEditar.style.display = "flex";
 
   inputEditNome.value = cliente.nome;
   inputEditSobrenome.value = cliente.sobrenome;
   inputEditCpf.value = cliente.cpf;
   inputEditEmail.value = cliente.email;
+
+  indexEditando = index;
 }
+
+formEdicao.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  clientes[indexEditando] = {
+    nome: inputEditNome.value,
+    sobrenome: inputEditSobrenome.value,
+    cpf: inputEditCpf.value,
+    email: inputEditEmail.value,
+  };
+
+  if (
+    !inputEditNome.value ||
+    !inputEditSobrenome.value ||
+    !inputEditCpf.value ||
+    !inputEditEmail.value
+  ) {
+    return;
+  }
+
+  fecharModalEditar();
+  renderizarTabela();
+});
+
+function fecharModalEditar() {
+  indexEditando = null;
+  modalEditar.style.display = "none";
+}
+
+btnCancelarEdicao.addEventListener("click", fecharModalEditar);
 
 renderizarTabela();
