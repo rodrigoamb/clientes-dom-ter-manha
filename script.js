@@ -15,7 +15,7 @@ const inputEmail = document.getElementById("email");
 const inputEditNome = document.getElementById("edit-nome");
 const inputEditSobrenome = document.getElementById("edit-sobrenome");
 const inputEditCpf = document.getElementById("edit-cpf");
-const inputEditEmail = document.getElementById("edit-email ");
+const inputEditEmail = document.getElementById("edit-email");
 
 const formEdicao = document.getElementById("form-edicao");
 const btnCancelarEdicao = document.getElementById("cancelar-edicao");
@@ -65,6 +65,7 @@ function renderizarTabela() {
     const btnEditar = document.createElement("button");
     btnEditar.textContent = "Editar";
     btnEditar.classList.add("editar");
+    btnEditar.onclick = () => abrirModalEditar(cliente);
 
     const btnExcluir = document.createElement("button");
     btnExcluir.textContent = "Excluir";
@@ -87,6 +88,10 @@ form.addEventListener("submit", (event) => {
   const cpf = inputcpf.value;
   const email = inputEmail.value;
 
+  if (!nome || !sobrenome || !cpf || !email) {
+    return;
+  }
+
   const objCliente = {
     nome,
     sobrenome,
@@ -99,5 +104,14 @@ form.addEventListener("submit", (event) => {
   renderizarTabela();
   form.reset();
 });
+
+function abrirModalEditar(cliente) {
+  modalEditar.style.display = "flex";
+
+  inputEditNome.value = cliente.nome;
+  inputEditSobrenome.value = cliente.sobrenome;
+  inputEditCpf.value = cliente.cpf;
+  inputEditEmail.value = cliente.email;
+}
 
 renderizarTabela();
